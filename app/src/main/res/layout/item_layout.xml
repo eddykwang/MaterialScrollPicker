@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical">
+
+  <data>
+
+    <variable
+      name="viewmodel"
+      type="com.eddystudio.horizontalscrollpicker.ViewModel"/>
+  </data>
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:onClick="@{(v)->viewmodel.onClick(v)}">
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/scroll_view_tv"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="16dp"
+      android:layout_gravity="center"
+      android:gravity="center"
+      android:text="@{viewmodel.obsIndex}"
+      android:textAlignment="center"
+      android:textColor="@android:color/white"
+      android:textSize="24sp"/>
+  </LinearLayout>
+
+</layout>
