@@ -60,35 +60,11 @@ class MyLinearLayoutManager(context: Context) : LinearLayoutManager(context) {
         midPos = i
       }
     }
+    val current = recyclerView.getChildLayoutPosition(getChildAt(midPos)!!)
+    callback?.onItemSelected(current)
     val textView = getChildAt(midPos)!!.findViewById<AppCompatTextView>(R.id.scroll_view_tv)
     textView.setTextColor(recyclerView.context.getColor(android.R.color.white))
     textView.elevation = 100f
-
-  }
-
-  override fun onScrollStateChanged(state: Int) {
-    super.onScrollStateChanged(state)
-
-    // When scroll stops we notify on the selected item
-    if(state.equals(RecyclerView.SCROLL_STATE_IDLE)) {
-
-      // Find the closest child to the recyclerView center --> this is the selected item.
-      val recyclerViewCenterX = getRecyclerViewCenterX()
-      var minDistance = recyclerView.width
-      var position = -1
-      for(i in 0 until recyclerView.childCount) {
-        val child = recyclerView.getChildAt(i)
-        val childCenterX = getDecoratedLeft(child) + (getDecoratedRight(child) - getDecoratedLeft(child)) / 2
-        var newDistance = Math.abs(childCenterX - recyclerViewCenterX)
-        if(newDistance < minDistance) {
-          minDistance = newDistance
-          position = recyclerView.getChildLayoutPosition(child)
-        }
-      }
-
-      // Notify on item selection
-      callback?.onItemSelected(position)
-    }
   }
 
   private fun getRecyclerViewCenterX(): Int {
