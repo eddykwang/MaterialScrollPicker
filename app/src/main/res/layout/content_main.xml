@@ -31,10 +31,20 @@
       android:id="@+id/horizontal_recyclerview"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:layout_marginBottom="0dp"
+      android:layout_alignBottom="@+id/view"
       android:clipToPadding="false"
       android:scrollbars="none"
       android:translationZ="300dp"/>
   </RelativeLayout>
+
+  <com.eddystudio.scrollpicker.ScrollPickerView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="32dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"/>
 
   <androidx.appcompat.widget.AppCompatTextView
     android:id="@+id/selected_item_tv"

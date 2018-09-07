@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="68dp"
+  android:background="#212121"
+  app:layout_constraintBottom_toTopOf="@+id/selected_item_tv"
+  app:layout_constraintEnd_toEndOf="parent"
+  app:layout_constraintStart_toStartOf="parent"
+  app:layout_constraintTop_toTopOf="parent">
+
+  <View
+    android:id="@+id/center_view"
+    android:layout_width="48dp"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:background="#BF360C"
+    android:elevation="200dp"/>
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/picker_recyclerview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:scrollbars="none"
+    android:translationZ="300dp"/>
+</RelativeLayout>

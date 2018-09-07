@@ -56,9 +56,9 @@ class MainActivity : AppCompatActivity() {
     snapHelper.attachToRecyclerView(recyclerView)
   }
 
-  fun convertDpToPixel(dp: Float, context: Context): Float {
-    val resources = context.getResources()
-    val metrics = resources.getDisplayMetrics()
+  private fun convertDpToPixel(dp: Float, context: Context): Float {
+    val resources = context.resources
+    val metrics = resources.displayMetrics
     return dp * (metrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
   }
 
