@@ -13,13 +13,16 @@ class ScrollPickerView<T> @JvmOverloads constructor(context: Context, attributeS
     RelativeLayout(context, attributeSet, defStyleAttr!!) {
   private val recyclerView by lazy { findViewById<RecyclerView>(R.id.picker_recyclerview) }
   private val centerView by lazy { findViewById<View>(R.id.center_view) }
+  private val typedArray by lazy { getContext().obtainStyledAttributes(attributeSet, R.styleable.ScrollPickerView) }
 
   private var scrollPickerAdapter: ScrollPickerAdapter<T>? = null
   private var onItemSelectedListener: OnItemSelectedListener? = null
   private var onItemUnselectedListener: OnItemUnselectedListener? = null
 
   init {
-    LayoutInflater.from(context).inflate(R.layout.layout_scroll_picker_view, this, true)
+    val view = LayoutInflater.from(context).inflate(R.layout.layout_scroll_picker_view, this, true)
+    view.setBackgroundColor(typedArray.getColor(R.styleable.ScrollPickerView_pickerViewBgColor, context.getColor(R.color.scrollViewDefaultBgColor)))
+    centerView.setBackgroundColor(typedArray.getColor(R.styleable.ScrollPickerView_centerPointerBgColor, context.getColor(R.color.scrollviewPointerBgColor)))
   }
 
   private fun setup() {
@@ -52,23 +55,26 @@ class ScrollPickerView<T> @JvmOverloads constructor(context: Context, attributeS
     recyclerView.setPadding(padding, 0, padding, 0)
   }
 
-  class Builder<T>(val scrollPickerView: ScrollPickerView<T>) {
-    public fun build() {
-      if(scrollPickerView.scrollPickerAdapter != null)
+  class Builder<T>(private val scrollPickerView: ScrollPickerView<T>) {
+    fun build() {
+      if(scrollPickerView.scrollPickerAdapter != null) {
         scrollPickerView.setup()
+      } else {
+        throw Exception("scrollViewAdapter is required!")
+      }
     }
 
-    public fun qucickRecyclerViewAdapter(adapter: ScrollPickerAdapter<T>): Builder<T> {
+    fun scrollViewAdapter(adapter: ScrollPickerAdapter<T>): Builder<T> {
       scrollPickerView.scrollPickerAdapter = adapter
       return this
     }
 
-    public fun onItemSelectedListener(onItemSelectedListener: OnItemSelectedListener): Builder<T> {
+    fun onItemSelectedListener(onItemSelectedListener: OnItemSelectedListener): Builder<T> {
       scrollPickerView.onItemSelectedListener = onItemSelectedListener
       return this
     }
 
-    public fun onItemUnselectedListener(onItemUnselectedListener: OnItemUnselectedListener): Builder<T> {
+    fun onItemUnselectedListener(onItemUnselectedListener: OnItemUnselectedListener): Builder<T> {
       scrollPickerView.onItemUnselectedListener = onItemUnselectedListener
       return this
     }

@@ -1,13 +1,9 @@
 package com.eddystudio.horizontalscrollpicker
 
-import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.util.DisplayMetrics
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatTextView
 import com.eddystudio.scrollpicker.OnItemSelectedListener
 import com.eddystudio.scrollpicker.OnItemUnselectedListener
@@ -40,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     val scrollPickerAdapter = ScrollPickerAdapter(list, R.layout.item_layout, BR.viewmodel)
     ScrollPickerView.Builder(scrollPickerView)
-        .qucickRecyclerViewAdapter(scrollPickerAdapter)
+        .scrollViewAdapter(scrollPickerAdapter)
         .onItemSelectedListener(object : OnItemSelectedListener {
           override fun onSelected(view: View, layoutPosition: Int) {
             tv.text = list[layoutPosition].index
@@ -57,6 +53,38 @@ class MainActivity : AppCompatActivity() {
 
         })
         .build()
+
+//**************************************************************************************************\
+
+    val l2 = ArrayList<ViewModel>()
+    l2.add(ViewModel("Monday"))
+    l2.add(ViewModel("Tuesday"))
+    l2.add(ViewModel("Wednesday"))
+    l2.add(ViewModel("Thursday"))
+    l2.add(ViewModel("Friday"))
+    l2.add(ViewModel("Saturday"))
+    l2.add(ViewModel("Sunday"))
+
+    val sp2 = findViewById<ScrollPickerView<ViewModel>>(R.id.pk2)
+    val scrollPickerAdapter2 = ScrollPickerAdapter(l2, R.layout.item_layout, BR.viewmodel)
+    ScrollPickerView.Builder(sp2)
+        .scrollViewAdapter(scrollPickerAdapter2)
+        .onItemSelectedListener(object : OnItemSelectedListener {
+          override fun onSelected(view: View, layoutPosition: Int) {
+            tv.text = l2[layoutPosition].obsIndex.get()
+            view.findViewById<AppCompatTextView>(R.id.scroll_view_tv)
+                .setTextColor(getColor(android.R.color.white))
+          }
+
+        })
+        .onItemUnselectedListener(object : OnItemUnselectedListener {
+          override fun unselected(view: View) {
+            view.findViewById<AppCompatTextView>(R.id.scroll_view_tv)
+                .setTextColor(getColor(android.R.color.holo_green_light))
+          }
+        })
+        .build()
   }
+
 
 }

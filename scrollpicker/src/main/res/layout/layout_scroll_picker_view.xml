@@ -4,7 +4,6 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="#212121"
   app:layout_constraintBottom_toTopOf="@+id/selected_item_tv"
   app:layout_constraintEnd_toEndOf="parent"
   app:layout_constraintStart_toStartOf="parent"
@@ -15,7 +14,6 @@
     android:layout_width="48dp"
     android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
-    android:background="#BF360C"
     android:elevation="200dp"/>
 
   <androidx.recyclerview.widget.RecyclerView

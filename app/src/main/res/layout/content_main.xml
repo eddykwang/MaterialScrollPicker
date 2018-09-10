@@ -14,18 +14,28 @@
     android:layout_width="match_parent"
     android:layout_height="68dp"
     android:layout_margin="32dp"
+    app:centerPointerBgColor="@color/colorAccent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
+    app:layout_constraintTop_toTopOf="parent"
+    app:pickerViewBgColor="@color/design_default_color_primary"/>
+
+  <com.eddystudio.scrollpicker.ScrollPickerView
+    android:id="@+id/pk2"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginTop="16dp"
+    app:centerPointerBgColor="@android:color/transparent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/scrollpickerview"/>
 
   <androidx.appcompat.widget.AppCompatTextView
     android:id="@+id/selected_item_tv"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:layout_marginRight="8dp"
     android:layout_marginBottom="8dp"
     android:textSize="32sp"
     app:layout_constraintBottom_toBottomOf="parent"
