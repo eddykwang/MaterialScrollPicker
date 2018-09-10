@@ -1,17 +1,18 @@
 package com.eddystudio.horizontalscrollpicker
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
-import android.view.View
-
-
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.LinearSnapHelper
-
-import androidx.recyclerview.widget.RecyclerView
 import android.util.DisplayMetrics
+import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatTextView
+import com.eddystudio.scrollpicker.OnItemSelectedListener
+import com.eddystudio.scrollpicker.OnItemUnselectedListener
+import com.eddystudio.scrollpicker.ScrollPickerAdapter
+import com.eddystudio.scrollpicker.ScrollPickerView
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,44 +23,40 @@ class MainActivity : AppCompatActivity() {
     val toolbar = findViewById<Toolbar>(R.id.toolbar)
     setSupportActionBar(toolbar)
     setupScrollView()
+
   }
 
   private fun setupScrollView() {
-    val selectedTv = findViewById<AppCompatTextView>(R.id.selected_item_tv)
-    val recyclerView = findViewById<RecyclerView>(R.id.horizontal_recyclerview)
+
+    val tv = findViewById<AppCompatTextView>(R.id.selected_item_tv)
+
     val list = ArrayList<ViewModel>()
     for(i in 1..30) {
       val vm = ViewModel(i.toString())
-      val lisenner: ViewModel.ClickEvent = object : ViewModel.ClickEvent {
-        override fun onClicked(view: View, string: String) {
-          val pos = recyclerView.getChildAdapterPosition(view)
-          recyclerView.smoothScrollToPosition(pos)
-        }
-      }
-      vm.setOnClickListener(lisenner)
       list.add(vm)
     }
-    val adapter = MyAdapter(list)
 
-    val padding = windowManager.defaultDisplay.width / 2 - convertDpToPixel(32f, this).toInt()
-    recyclerView.setPadding(padding, 0, padding, 0)
-    recyclerView.adapter = adapter
-    val layoutManager = MyLinearLayoutManager(this)
-    layoutManager.callback = object : MyLinearLayoutManager.OnItemSelectedListener {
-      override fun onItemSelected(layoutPosition: Int) {
-        selectedTv.text = list[layoutPosition].index
-      }
+    val scrollPickerView = findViewById<ScrollPickerView<ViewModel>>(R.id.scrollpickerview)
 
-    }
-    recyclerView.layoutManager = layoutManager
-    val snapHelper = LinearSnapHelper()
-    snapHelper.attachToRecyclerView(recyclerView)
-  }
+    val scrollPickerAdapter = ScrollPickerAdapter(list, R.layout.item_layout, BR.viewmodel)
+    ScrollPickerView.Builder(scrollPickerView)
+        .qucickRecyclerViewAdapter(scrollPickerAdapter)
+        .onItemSelectedListener(object : OnItemSelectedListener {
+          override fun onSelected(view: View, layoutPosition: Int) {
+            tv.text = list[layoutPosition].index
+            view.findViewById<AppCompatTextView>(R.id.scroll_view_tv)
+                .setTextColor(getColor(android.R.color.white))
+          }
 
-  private fun convertDpToPixel(dp: Float, context: Context): Float {
-    val resources = context.resources
-    val metrics = resources.displayMetrics
-    return dp * (metrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+        })
+        .onItemUnselectedListener(object : OnItemUnselectedListener {
+          override fun unselected(view: View) {
+            view.findViewById<AppCompatTextView>(R.id.scroll_view_tv)
+                .setTextColor(getColor(android.R.color.darker_gray))
+          }
+
+        })
+        .build()
   }
 
 }

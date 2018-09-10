@@ -9,38 +9,10 @@
   tools:context=".MainActivity"
   tools:showIn="@layout/activity_main">
 
-  <RelativeLayout
+  <com.eddystudio.scrollpicker.ScrollPickerView
+    android:id="@+id/scrollpickerview"
     android:layout_width="match_parent"
     android:layout_height="68dp"
-    android:background="#212121"
-    app:layout_constraintBottom_toTopOf="@+id/selected_item_tv"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    >
-
-    <View
-      android:id="@+id/view"
-      android:layout_width="48dp"
-      android:layout_height="match_parent"
-      android:layout_centerHorizontal="true"
-      android:background="#BF360C"
-      android:elevation="200dp"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/horizontal_recyclerview"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_marginBottom="0dp"
-      android:layout_alignBottom="@+id/view"
-      android:clipToPadding="false"
-      android:scrollbars="none"
-      android:translationZ="300dp"/>
-  </RelativeLayout>
-
-  <com.eddystudio.scrollpicker.ScrollPickerView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:layout_margin="32dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"

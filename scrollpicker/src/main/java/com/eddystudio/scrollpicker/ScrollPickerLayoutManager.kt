@@ -1,7 +1,6 @@
 package com.eddystudio.scrollpicker
 
 import android.content.Context
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -10,7 +9,8 @@ class ScrollPickerLayoutManager(context: Context) : LinearLayoutManager(context)
     orientation = HORIZONTAL
   }
 
-  var onItemListener: OnItemListener? = null
+  var onItemSelectedListener: OnItemSelectedListener? = null
+  var onItemUnselectedListener: OnItemUnselectedListener? = null
   private lateinit var recyclerView: RecyclerView
 
   override fun onAttachedToWindow(view: RecyclerView?) {
@@ -51,7 +51,9 @@ class ScrollPickerLayoutManager(context: Context) : LinearLayoutManager(context)
       child.scaleX = scale
       child.scaleY = scale
 
-      onItemListener!!.onItemUnselected(child)
+      if(onItemUnselectedListener != null) {
+        onItemUnselectedListener?.unselected(child)
+      }
 
       if(scale > maxScale) {
         maxScale = scale
@@ -59,17 +61,9 @@ class ScrollPickerLayoutManager(context: Context) : LinearLayoutManager(context)
       }
     }
 
-
     val current = recyclerView.getChildLayoutPosition(getChildAt(midPos)!!)
-    onItemListener?.onItemSelected(getChildAt(midPos)!!, current)
-  }
-
-  private fun getRecyclerViewCenterX(): Int {
-    return (recyclerView.right - recyclerView.left) / 2 + recyclerView.left
-  }
-
-  interface OnItemListener {
-    fun onItemSelected(view: View, layoutPosition: Int)
-    fun onItemUnselected(view: View)
+    if(onItemSelectedListener != null) {
+      onItemSelectedListener?.onSelected(getChildAt(midPos)!!, current)
+    }
   }
 }
