@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +20,25 @@ class ScrollPickerView<T> @JvmOverloads constructor(context: Context, attributeS
   private var onItemSelectedListener: OnItemSelectedListener? = null
   private var onItemUnselectedListener: OnItemUnselectedListener? = null
 
+  // 0 = horizontal  1 = vertical
+  private var orientation: Int = 0
+  private val HORIZONTAL = 0
+  private val VERTICAL = 1
+
   init {
     val view = LayoutInflater.from(context).inflate(R.layout.layout_scroll_picker_view, this, true)
-    view.setBackgroundColor(typedArray.getColor(R.styleable.ScrollPickerView_pickerViewBgColor, context.getColor(R.color.scrollViewDefaultBgColor)))
-    centerView.setBackgroundColor(typedArray.getColor(R.styleable.ScrollPickerView_centerPointerBgColor, context.getColor(R.color.scrollviewPointerBgColor)))
+
+    try {
+      view.setBackgroundColor(typedArray.getColor(R.styleable.ScrollPickerView_pickerViewBgColor, context.getColor(R.color.scrollViewDefaultBgColor)))
+      centerView.setBackgroundColor(typedArray.getColor(R.styleable.ScrollPickerView_centerPointerBgColor, context.getColor(R.color.scrollviewPointerBgColor)))
+      val centerParams = RelativeLayout.LayoutParams(typedArray.getDimension(R.styleable.ScrollPickerView_centerPointerWidth, 0f).toInt(),
+          typedArray.getDimension(R.styleable.ScrollPickerView_centerPointerHeight, 0f).toInt())
+      centerParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+      centerView.layoutParams = centerParams
+      orientation = typedArray.getInteger(R.styleable.ScrollPickerView_pickerOrientation, 0)
+    } finally {
+      typedArray.recycle()
+    }
   }
 
   private fun setup() {
@@ -33,7 +49,7 @@ class ScrollPickerView<T> @JvmOverloads constructor(context: Context, attributeS
     }
 
     recyclerView.adapter = scrollPickerAdapter
-    val layoutManager = ScrollPickerLayoutManager(context)
+    val layoutManager = ScrollPickerLayoutManager(context, orientation)
 
     layoutManager.onItemSelectedListener = onItemSelectedListener
     layoutManager.onItemUnselectedListener = onItemUnselectedListener
@@ -51,8 +67,14 @@ class ScrollPickerView<T> @JvmOverloads constructor(context: Context, attributeS
 
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
     super.onSizeChanged(w, h, oldw, oldh)
-    val padding = w / 2 - convertDpToPixel(32f, context).toInt()
-    recyclerView.setPadding(padding, 0, padding, 0)
+//    val padding = w / 2 - convertDpToPixel(32f, context).toInt()
+    if(orientation == HORIZONTAL) {
+      val padding = w / 2 - if(recyclerView.getChildAt(0) != null) recyclerView.getChildAt(0).width / 2 else 0
+      recyclerView.setPadding(padding, 0, padding, 0)
+    } else {
+      val padding = h / 2 - if(recyclerView.getChildAt(0) != null) recyclerView.getChildAt(0).height / 2 else 0
+      recyclerView.setPadding(0, padding, 0, padding)
+    }
   }
 
   class Builder<T>(private val scrollPickerView: ScrollPickerView<T>) {

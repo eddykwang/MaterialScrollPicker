@@ -7,7 +7,7 @@
 
     <variable
       name="viewmodel"
-      type="com.eddystudio.horizontalscrollpicker.ViewModel"/>
+      type="com.eddystudio.materialscrollpicker.ViewModel"/>
   </data>
 
   <LinearLayout
@@ -18,7 +18,7 @@
       android:id="@+id/scroll_view_tv"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_margin="16dp"
+      android:layout_margin="8dp"
       android:layout_gravity="center"
       android:gravity="center"
       android:text="@{viewmodel.obsIndex}"

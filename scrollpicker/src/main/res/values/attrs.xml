@@ -3,8 +3,14 @@
   <declare-styleable name="ScrollPickerView">
     <attr name="pickerViewBgColor" format="color"/>
     <attr name="centerPointerBgColor" format="color"/>
+    <attr name="centerPointerWidth" format="dimension"/>
+    <attr name="centerPointerHeight" format="dimension"/>
     <attr name="itemScaleRatio" format="float"/>
     <attr name="selectedItemBgColor" format="color"/>
     <attr name="unselectedItemBgColor" format="color"/>
+    <attr name="pickerOrientation" format="enum">
+      <enum name="horizontal" value="0"/>
+      <enum name="vertical" value="1"/>
+    </attr>
   </declare-styleable>
 </resources>
